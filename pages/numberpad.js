@@ -4,7 +4,11 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import Numpad from "../components/Numpad";
 import Link from "next/link";
-function numberPad({ reciever }) {
+function numberPad() {
+  const [recieverData, setRecieverData] = useState();
+  const router = useRouter();
+  const { query } = router;
+  const { id, name, email } = query;
   useEffect(() => {
     async function fetchData() {}
     fetchData();
@@ -13,7 +17,7 @@ function numberPad({ reciever }) {
     <>
       <Link
         href={"/dashboard"}
-        className="w-[48px] h-[48px] rounded-[8px] flex justify-center items-center absolute top-[48px] right-[24px] bg-[#333333] text-white"
+        className="w-[48px] h-[48px] rounded-[8px] flex justify-center items-center absolute top-[24px] right-[24px] bg-[#333333] text-white"
       >
         X
       </Link>
@@ -24,7 +28,7 @@ function numberPad({ reciever }) {
             src="https://xsgames.co/randomusers/avatar.php?g=pixel"
           />
           <span className="text-white font-[600] mt-[8px]">
-            {reciever ? reciever.name : "Abhinav test"}
+            {name ? name : "Abhinav test"}
           </span>
         </div>
         <Numpad />

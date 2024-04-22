@@ -7,6 +7,7 @@ import Link from "next/link";
 
 function Dashboard() {
   const [userData, setUserData] = useState();
+  const [qrImg, setQrImg] = useState();
   async function getUserData() {
     const authToken = Cookies.get("token");
     const headers = {
@@ -18,7 +19,8 @@ function Dashboard() {
       { headers }
     );
     console.log(response.data);
-    setUserData(response.data);
+    setUserData(response.data.user);
+    setQrImg(response.data.qrImg);
   }
   useEffect(() => {
     async function fetchData() {
@@ -29,46 +31,51 @@ function Dashboard() {
 
   return (
     <>
-      <div className="p-[12px] bg-[#111111] w-full h-[100vh]">
-        <div className="p-[12px] rounded-[36px] bg-[#d2a9ff] shadow-[0px_5px_20px_0px_rgba(210,169,255,.5)]">
-          <div className="flex py-[24px]">
-            <div className="w-[32px] h-[32px] ">
-              <img
-                className="rounded-[8px]"
-                src="https://xsgames.co/randomusers/avatar.php?g=pixel"
-                alt=""
-                srcset=""
-              />
+      {userData ? (
+        <div className="p-[12px] bg-[#111111] w-full h-[100vh]">
+          <div className="p-[12px] rounded-[36px] bg-[#d2a9ff] shadow-[0px_5px_20px_0px_rgba(210,169,255,.5)]">
+            <div className="flex py-[24px]">
+              <div className="w-[32px] h-[32px] ">
+                <img
+                  className="rounded-[8px]"
+                  src="https://xsgames.co/randomusers/avatar.php?g=pixel"
+                  alt=""
+                  srcset=""
+                />
+              </div>
+              <div className="text-[#111111] flex flex-col gap-0 ml-[8px]">
+                <span className="text-[12px]">HELLO</span>
+                <span className="font-[900] mt-[-8px]">
+                  {userData ? userData.name : ""}
+                </span>
+              </div>
             </div>
-            <div className="text-[#111111] flex flex-col gap-0 ml-[8px]">
-              <span className="text-[12px]">HELLO</span>
-              <span className="font-[900] mt-[-8px]">
-                {userData ? userData.name : ""}
+            <div className="flex flex-col">
+              <span className="text-[14px] font-[600] text-[#333333]">
+                Your Balance
+              </span>
+              <span className="text-[32px] font-[800] mt-[-10px]">
+                {userData ? formatTimeFromMinutes(userData.total_time) : null}
               </span>
             </div>
+            <div className="flex mt-[8px]">
+              <Link
+                href={"/qrimage?id=" + userData.id + "&name=" + userData.name}
+                className="font-[600] py-[16px] mr-[8px] w-[50%] rounded-full bg-[#111111] text-white  text-center"
+              >
+                Recieve
+              </Link>
+              <Link
+                href={"/scanner"}
+                className="font-[600] py-[16px] w-[50%] rounded-full bg-white text-[#111111] text-center"
+              >
+                Send
+              </Link>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-[14px] font-[600] text-[#333333]">
-              Your Balance
-            </span>
-            <span className="text-[32px] font-[800] mt-[-10px]">
-              {userData ? formatTimeFromMinutes(userData.total_time) : null}
-            </span>
-          </div>
-          <div className="flex mt-[8px]">
-            <button className="font-[600] py-[16px] mr-[8px] w-[50%] rounded-full bg-[#111111] text-white">
-              Recieve
-            </button>
-            <Link
-              href={"/scanner"}
-              className="font-[600] py-[16px] w-[50%] rounded-full bg-white text-[#111111] text-center"
-            >
-              Send
-            </Link>
-          </div>
+          {userData ? <Transactions myId={userData.id} /> : null}
         </div>
-        {userData ? <Transactions myId={userData.id} /> : null}
-      </div>
+      ) : null}
     </>
   );
 }
