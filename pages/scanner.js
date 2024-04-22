@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 
 function scanner() {
   const router = useRouter();
+  const { query } = router;
+  const { myId } = query;
   const config = { fps: 10, qrbox: { width: 250, height: 250 } };
   async function getRecieverData(id) {
     const authToken = Cookies.get("token");
@@ -20,7 +22,7 @@ function scanner() {
     );
     console.log(response.data);
     router.push(
-      `/numberpad?id=${response.data.id}&name=${response.data.name}&email=${response.data.email}`
+      `/numberpad?id=${response.data.id}&name=${response.data.name}&email=${response.data.email}&myId=${myId}`
     );
   }
   useEffect(() => {
@@ -30,14 +32,7 @@ function scanner() {
 
       getRecieverData(decodedText);
 
-      html5QrCode
-        .stop()
-        .then((ignore) => {
-          // QR Code scanning is stopped.
-        })
-        .catch((err) => {
-          // Stop failed, handle it.
-        });
+      html5QrCode.stop();
     };
     html5QrCode.start(
       { facingMode: "environment" },

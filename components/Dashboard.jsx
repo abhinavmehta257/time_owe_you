@@ -30,6 +30,29 @@ function Dashboard() {
     fetchData();
   }, []);
 
+  //get transactions
+  const [transactions, setTransactions] = useState([]);
+
+  async function getTransactions() {
+    const authToken = Cookies.get("token");
+    const headers = {
+      Authorization: authToken, // Add the token to the Authorization header
+      "Content-Type": "application/json", // Example of another header
+    };
+    const response = await axios.get(
+      "https://x8ki-letl-twmt.n7.xano.io/api:-qIKyLNe/transactions",
+      { headers }
+    );
+    console.log(response.data);
+    setTransactions(response.data);
+  }
+  useEffect(() => {
+    async function fetchData() {
+      await getTransactions();
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
       {userData ? (
@@ -69,14 +92,16 @@ function Dashboard() {
                 Recieve
               </Link>
               <Link
-                href={"/scanner"}
+                href={"/scanner?myId=" + userData.id}
                 className="font-[600] py-[16px] w-[50%] rounded-full bg-white text-[#111111] text-center"
               >
                 Send
               </Link>
             </div>
           </div>
-          {userData ? <Transactions myId={userData.id} /> : null}
+          {userData && transactions ? (
+            <Transactions transactions={transactions} myId={userData.id} />
+          ) : null}
         </div>
       ) : (
         <LoadingScreen />

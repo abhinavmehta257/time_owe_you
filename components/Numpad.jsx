@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-function Numpad() {
-  const [time, setTime] = useState("");
+function Numpad({ formatTime, time, formattedTime }) {
   const handleClick = (value) => {
     // onButtonClick(value);
     let timeString;
@@ -10,18 +9,18 @@ function Numpad() {
     } else {
       timeString = time + value;
     }
-    setTime(timeString);
+    formatTime(timeString);
   };
 
   return (
     <>
       <div className=" flex flex-col items-center py-[24px]">
-        <span className="text-[56px] text-center font-[700]">
-          {time ? time : "0"}
+        <span className="text-[48px] text-center font-[700]">
+          {formattedTime ? formattedTime : "0"}
         </span>
-        <span className="px-[16px] rounded-xl border-[#111111] bg-[#333333]">
+        {/* <span className="px-[16px] rounded-xl border-[#111111] bg-[#333333]">
           Mins
-        </span>
+        </span> */}
       </div>
       <div>
         <div className="grid grid-cols-3 gap-2">
