@@ -54,7 +54,7 @@ function scanner() {
         X
       </Link>
       <div className="bg-[#111111] h-[100vh] pt-[150px]">
-        <div id="reader" className=" mb-[auto]"></div>
+        <div id="reader" className="mb-[auto]"></div>
         <div className="text-white"></div>
       </div>
     </>

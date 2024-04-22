@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Router, useRouter } from "next/router";
+import Loader from "./blocks/Loader";
 function Login() {
-  const [username, setUsername] = React.useState(null);
-  const [password, setPassword] = React.useState(null);
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(null);
+  const [error, setError] = useState("");
   const router = useRouter();
   function handleUserName(e) {
     setUsername(e.target.value);
@@ -22,6 +25,7 @@ function Login() {
     };
     try {
       console.log(formData);
+      setIsSubmit(true);
       const response = await axios.post(
         "https://x8ki-letl-twmt.n7.xano.io/api:-qIKyLNe/auth/login",
         formData
@@ -87,10 +91,17 @@ function Login() {
             <button
               type="submit"
               className="w-full py-[11px] bg-[#75dfc2] rounded-[8px] border justify-center items-center inline-flex"
+              disabled={isSubmit}
             >
-              <div className="text-center text-[#111111] text-xs font-semibold font-['Poppins']">
-                Log in
-              </div>
+              {isSubmit ? (
+                <div className="text-center text-[#111111] text-xs font-semibold font-['Poppins']">
+                  Processing...
+                </div>
+              ) : (
+                <div className="text-center text-[#111111] text-xs font-semibold font-['Poppins']">
+                  Log in
+                </div>
+              )}
             </button>
           </div>
         </form>

@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import Transactions from "./Transactions";
 import formatTimeFromMinutes from "../helpers/hoursConverter";
 import Link from "next/link";
+import LoadingScreen from "./LoadingScreen";
 
 function Dashboard() {
   const [userData, setUserData] = useState();
@@ -55,7 +56,9 @@ function Dashboard() {
                 Your Balance
               </span>
               <span className="text-[32px] font-[800] mt-[-10px]">
-                {userData ? formatTimeFromMinutes(userData.total_time) : null}
+                {userData
+                  ? formatTimeFromMinutes(userData.total_time)
+                  : "0mins"}
               </span>
             </div>
             <div className="flex mt-[8px]">
@@ -75,7 +78,9 @@ function Dashboard() {
           </div>
           {userData ? <Transactions myId={userData.id} /> : null}
         </div>
-      ) : null}
+      ) : (
+        <LoadingScreen />
+      )}
     </>
   );
 }

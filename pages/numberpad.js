@@ -5,7 +5,6 @@ import axios from "axios";
 import Numpad from "../components/Numpad";
 import Link from "next/link";
 function numberPad() {
-  const [recieverData, setRecieverData] = useState();
   const router = useRouter();
   const { query } = router;
   const { id, name, email } = query;

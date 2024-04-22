@@ -20,5 +20,9 @@ export default function formatTimeFromMinutes(totalMinutes) {
     formattedTime = "-" + formattedTime;
   }
 
+  if (totalMinutes == 0) {
+    formattedTime += `0min`;
+  }
+
   return formattedTime.trim(); // Trim to remove extra whitespace
 }
