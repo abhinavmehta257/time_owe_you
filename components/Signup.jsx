@@ -7,7 +7,7 @@ function Signup() {
   const [username, setUsername] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
-  const [isSubmit, setIsSubmit] = useState(null);
+  const [isSubmit, setIsSubmit] = React.useState(null);
 
   const router = useRouter();
   function handleUserName(e) {
